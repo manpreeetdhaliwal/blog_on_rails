@@ -38,12 +38,13 @@
     
             </div>
     <% end %>
-<h3>Comments:</h3>
+
     <% @comments.each do |comment|%>
-    <span>
-    <%= comment.body %>
-    <small><p>commented : <%= time_ago_in_words(comment.created_at)  %> ago
-    <li><%= link_to "Delete",post_comment_path(@post,comment), method: :delete,data: {confirm: "Are you sure?"} %></li></p></small>
+    <div><%= comment.body %></div>
+    <div class="row">
+    <div class="col-md-2"><small>commented : <%= time_ago_in_words(comment.created_at)  %> ago </small></div>
+    <div class="col-md-10"><li><%= link_to "Delete",post_comment_path(@post,comment),style: 'color:blue; text-decoration: none', method: :delete,data: {confirm: "Are you sure?"} %></li></div>
+    </div><br>
     
-    </span>
+    
     <% end %>
