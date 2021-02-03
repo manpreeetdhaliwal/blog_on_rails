@@ -4,12 +4,12 @@
 <p>posted : <%= time_ago_in_words(@post.created_at)  %> ago</p> 
 </small>
 <div>
-    
+<% if can? :crud, @idea %>
     <%= link_to '<button type="button" class="btn btn-outline-primary">Edit</button>'.html_safe, edit_post_path(@post.id)%> 
-  
-    
+<% end %>
+<% if can? :crud, @idea %>
     <%= link_to '<button type="button" class="btn btn-outline-danger">Delete</button>'.html_safe,post_path(@post),method: :delete,data:{confirm: "Are you sure ?"}%>
-    
+<% end %>
 </div>
 <br>
 <h3>Comment</h3>
@@ -43,7 +43,9 @@
     <div><%= comment.body %></div>
     <div class="row">
     <div class="col-md-2"><small>commented : <%= time_ago_in_words(comment.created_at)  %> ago </small></div>
+<% if can? :crud, review %>
     <div class="col-md-10"><li><%= link_to "Delete",post_comment_path(@post,comment),style: 'color:blue; text-decoration: none', method: :delete,data: {confirm: "Are you sure?"} %></li></div>
+<% end %>  
     </div><br>
     
     

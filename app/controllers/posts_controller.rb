@@ -23,7 +23,7 @@ class PostsController < ApplicationController
     end
     def show
         @comments=@post.comments.order(created_at: :desc)
-        puts @comments
+        
         @comment=Comment.new
         # @like=@idea.likes.find_by(user: current_user)
     end
