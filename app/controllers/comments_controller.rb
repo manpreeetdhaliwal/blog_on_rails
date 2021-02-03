@@ -1,9 +1,10 @@
 class CommentsController < ApplicationController
+    before_action :authenticate_user!
     def create
         @post = Post.find params[:post_id]
         @comment=Comment.new comment_params
         @comment.post =@post
-        # @comment.user=current_user
+        @comment.user=current_user
     
         
         if @comment.save
@@ -20,9 +21,12 @@ class CommentsController < ApplicationController
     # questions/:question_id/answers/:id
     # questions/8/anaswers/1
     @comment=Comment.find params[:id]
+    if can?(:crud, @comment)
     @comment.destroy
     redirect_to post_path(@post), notice: "comment deleted"
-    
+    else
+    redirect_to root_path, alert: 'Not Authorized'
+    end
 end
     
 
