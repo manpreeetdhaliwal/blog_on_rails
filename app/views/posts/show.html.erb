@@ -1,16 +1,19 @@
 <h3><%=@post.title%></h3>
 <p><%= @post.body %></p>
-<small>
-<p>posted : <%= time_ago_in_words(@post.created_at)  %> ago</p> 
-</small>
-<div>
-<% if can? :crud, @idea %>
-    <%= link_to '<button type="button" class="btn btn-outline-primary">Edit</button>'.html_safe, edit_post_path(@post.id)%> 
-<% end %>
-<% if can? :crud, @idea %>
-    <%= link_to '<button type="button" class="btn btn-outline-danger">Delete</button>'.html_safe,post_path(@post),method: :delete,data:{confirm: "Are you sure ?"}%>
-<% end %>
-</div>
+    <div>
+        <small>
+            <p>Posted by <%= @post.user.full_name %> ,<%= time_ago_in_words(@post.created_at) %> ago.</p>
+        </small>
+    </div>
+   
+    <div>
+    <% if can? :crud, @post %>
+        <%= link_to 'Edit', edit_post_path(@post.id), class: "btn btn-outline-primary mt-3" %>
+    <% end %>
+    <% if can? :crud, @post %>
+        <%= link_to 'Delete', post_path(@post), method: :delete, data: { confirm: 'Sure?' }, class: "btn btn-outline-primary mt-3" %>
+    <% end %>
+    </div>
 <br>
 <h3>Comment</h3>
 <%= form_with model:[@post,@comment],local: true do |form|%>
@@ -42,9 +45,10 @@
     <% @comments.each do |comment|%>
     <div><%= comment.body %></div>
     <div class="row">
-    <div class="col-md-2"><small>commented : <%= time_ago_in_words(comment.created_at)  %> ago </small></div>
-<% if can? :crud, review %>
-    <div class="col-md-10"><li><%= link_to "Delete",post_comment_path(@post,comment),style: 'color:blue; text-decoration: none', method: :delete,data: {confirm: "Are you sure?"} %></li></div>
+    <div class="col-md-3"><small>commented : <%= time_ago_in_words(comment.created_at)  %> ago </small></div>
+<% if can? :crud, comment %>
+<%= link_to "Delete",post_comment_path(@post,comment), method: :delete,data: {confirm: "Are you sure?"} %>
+    <div class="col-md-9"><li><%#= link_to "Delete",post_comment_path(@post,comment),style: 'color:blue; text-decoration: none', method: :delete,data: {confirm: "Are you sure?"} %></li></div>
 <% end %>  
     </div><br>
     

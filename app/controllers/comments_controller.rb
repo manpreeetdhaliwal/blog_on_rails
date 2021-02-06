@@ -23,7 +23,9 @@ class CommentsController < ApplicationController
     @comment=Comment.find params[:id]
     if can?(:crud, @comment)
     @comment.destroy
+    # redirect_to root_path
     redirect_to post_path(@post), notice: "comment deleted"
+    # redirect_to post_path(@comment.post_id)
     else
     redirect_to root_path, alert: 'Not Authorized'
     end

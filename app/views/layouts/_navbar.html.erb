@@ -5,8 +5,7 @@
 
 <%= link_to 'New Post', new_post_path, style: 'color:blue; text-decoration: none' %>
 <% if user_signed_in? %>
-        Hello Mr. <%= current_user.full_name %> 
-       
+        <span>Hello, <%= link_to "#{current_user.first_name}", edit_user_path(current_user) %>!</span>
         <%= link_to "Sign Out", session_path, method: :delete,
         data: {confirm: 'Are you sure you want to log out?'}
          %>

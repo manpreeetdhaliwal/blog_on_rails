@@ -4,10 +4,11 @@ class PostsController < ApplicationController
     before_action :authorize_user!,only:[:edit,:update,:destroy]
     def new
         @post=Post.new
+        # @post.user = current_user
     end
     def create
         @post=Post.new post_params
-        # @question.user = current_user
+        @post.user = current_user
 
         if @post.save
             flash[:notice]="Post created successfully."
@@ -39,8 +40,11 @@ class PostsController < ApplicationController
         end
     end
     def destroy
+        byebug
+    #    @post= Post.find(params[:id])
         @post.destroy
-        redirect_to posts_path
+        
+        redirect_to posts_path, notice: "post deleted"
     end
     private
     def find_post
@@ -50,7 +54,7 @@ class PostsController < ApplicationController
         params.require(:post).permit(:title, :body)
     end
     def authorize_user!
-        redirect_to root_path, alert: 'Not Authorized' unless can?(:crud, @idea)
+        redirect_to root_path, alert: 'Not Authorized' unless can?(:crud, @post)
     end
 
 end

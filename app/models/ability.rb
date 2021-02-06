@@ -9,7 +9,7 @@ class Ability
     user ||= User.new # guest user (not logged in)
     if user.is_admin?
       can :manage, :all
- end
+    end
     #   if user.admin?
     #     can :manage, :all
     #   else
@@ -35,12 +35,14 @@ class Ability
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
     alias_action(:create, :read, :update,:delete, to: :crud)
 
+    can :crud, User, :id => user.id
+
     can(:crud, Post) do |post|
       user==post.user
     end
 
     can(:crud,Comment) do |comment|
-      user==comment.user
+      user == comment.user || comment.post.user == user
     end
     
   end
