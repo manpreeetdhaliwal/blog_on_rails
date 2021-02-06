@@ -1,0 +1,31 @@
+
+
+
+ 
+<%= form_with model:@post,:class=>"form-group", local: true do |form| %>
+    <div class="form-group">
+    <% if @post.errors.present? %>
+    <%= @post.errors.full_messages.join(', ')%>
+    <% end %>
+    
+            <%= form.label :title  %> 
+        <div class="input-group">
+            <%= form.text_field :title, :class=>"form-control input-lg"  %> 
+        </div>
+            <%= form.label :body  %>
+        <div class="input-group">
+            <%= form.text_area :body, cols:50 ,rows:3, :class=>"form-control input-lg"  %>  
+        </div>
+        <br>
+        
+        <%= form.submit "Create Post", class: "btn btn-outline-primary" %>
+        
+        <%#= form.submit t(".submit"), class: "btn btn-outline-primary" %>
+       
+       
+       
+    </div>
+    <% end %>
+    
+
+<%#= render "form" %>

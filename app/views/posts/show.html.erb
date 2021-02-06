@@ -1,0 +1,56 @@
+<h3><%=@post.title%></h3>
+<p><%= @post.body %></p>
+    <div>
+        <small>
+            <p>Posted by <%= @post.user.full_name %> ,<%= time_ago_in_words(@post.created_at) %> ago.</p>
+        </small>
+    </div>
+   
+    <div>
+    <% if can? :crud, @post %>
+        <%= link_to 'Edit', edit_post_path(@post.id), class: "btn btn-outline-primary mt-3" %>
+    <% end %>
+    <% if can? :crud, @post %>
+        <%= link_to 'Delete', post_path(@post), method: :delete, data: { confirm: 'Sure?' }, class: "btn btn-outline-primary mt-3" %>
+    <% end %>
+    </div>
+<br>
+<h3>Comment</h3>
+<%= form_with model:[@post,@comment],local: true do |form|%>
+    <div class="form-group">
+    <ul>
+        <% if @comment.errors.full_messages.each do |msg|%>
+
+        <li>
+        <%= msg %>
+       
+        </li>
+        <% end %>
+        <% end %>
+    </ul>
+    <div class="input-group">
+    <%= form.text_area :body, 
+    cols: 50, 
+    rows: 5, 
+    placeholder: 'What\'s on your mind?',
+    :class=>"form-control input-lg"%>
+    </div>
+    <br>
+    
+    <%= form.submit "Submit", class: "btn btn-outline-primary " %>
+    
+            </div>
+    <% end %>
+
+    <% @comments.each do |comment|%>
+    <div><%= comment.body %></div>
+    <div class="row">
+    <div class="col-md-3"><small>commented : <%= time_ago_in_words(comment.created_at)  %> ago </small></div>
+<% if can? :crud, comment %>
+<%#= link_to "Delete",post_comment_path(@post,comment), method: :delete,data: {confirm: "Are you sure?"} %>
+    <div class="col-md-9"><li><%= link_to "Delete",post_comment_path(@post,comment),style: 'color:blue; text-decoration: none', method: :delete,data: {confirm: "Are you sure?"} %></li></div>
+<% end %>  
+    </div><br>
+    
+    
+    <% end %>
